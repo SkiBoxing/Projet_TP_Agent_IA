@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="lib2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/mobiliteenville/lib/JadeUPHF.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/mobiliteenville/lib/opencsv-3.9-3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/mobiliteenville/lib/json-20250517.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
