@@ -64,11 +64,14 @@ public class AgenceAgent extends GuiAgent {
         //REGLAGE ECOUTE DE LA RADIO
         topic = AgentServicesTools.generateTopicAID(this, "TRAFFIC NEWS");
 
-        //ecoute des messages radio
-        addBehaviour(new ReceiverBehaviour(this, -1, MessageTemplate.MatchTopic(topic), true, (a, m)->{
-                    println("Message recu sur le topic " + topic.getLocalName() + ". Contenu " + m.getContent()
-                            + " emis par :  " + m.getSender().getLocalName());
-                }));
+        //ecoute des messages radio et réagit aux alertes
+        addBehaviour(new ReceiverBehaviour(
+                this,
+                -1,
+                MessageTemplate.MatchTopic(topic),
+                true,
+                (a, m) -> traiterAlerte(m.getContent())
+        ));
 
         //FIN REGLAGE ECOUTE DE LA RADIO
 
@@ -79,6 +82,34 @@ public class AgenceAgent extends GuiAgent {
                 MessageTemplate.MatchPerformative(ACLMessage.CFP));
         addBehaviour(new ContractNetVente(this, template, catalog));
 
+    }
+
+    /**
+     * Vérifie la validité d'une alerte et supprime les trajets affectés par l'alerte dans le catalogue
+     * de trajets partagé avec le vendeur.
+     */
+    private void traiterAlerte(String contenu) {
+
+        String[] troncon = contenu.split(",", -1);
+
+        if (troncon.length != 2) {
+            println("Alerte invalide : " + contenu);
+            return;
+        }
+
+        String depart = troncon[0].trim();
+        String arrivee = troncon[1].trim();
+
+        if (depart.isEmpty() || arrivee.isEmpty()) {
+            println("Alerte invalide : " + contenu);
+            return;
+        }
+
+        // Suppression des trajets affectés
+        int nbSupprimes = catalog.removeJourneysBetween(depart, arrivee);
+
+        println("ALERTE : troncon interrompu " + depart + " -> " + arrivee);
+        println(nbSupprimes + " trajet(s) supprime(s) du catalogue.");
     }
 
     // Fermeture de l'agent
