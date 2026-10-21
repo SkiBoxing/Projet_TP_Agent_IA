@@ -180,6 +180,34 @@ public class JourneysList implements Serializable {
     }
 
     /**
+     * Supprime tous les trajets correspondant au tronçon interrompu.
+     *
+     * @param start origine du tronçon
+     * @param stop destination du tronçon
+     * @return nombre de trajets supprimés
+     */
+    public int removeJourneysBetween(String start, String stop) {
+
+        final String normalizedStart = start.trim().toUpperCase();
+        final String normalizedStop = stop.trim().toUpperCase();
+
+        final int[] removed = {0};
+
+        removeIf(j -> {
+            boolean impacted = j.getStart().equalsIgnoreCase(normalizedStart)
+                            && j.getStop().equalsIgnoreCase(normalizedStop);
+
+            if (impacted) {
+                removed[0]++;
+            }
+
+            return impacted;
+        });
+
+        return removed[0];
+    }
+
+    /**
      * @return true is the catalog is null or contains no key
      */
     public boolean isEmpty() {
