@@ -79,6 +79,12 @@ public class TravellerAgent extends GuiAgent {
      */
     private TravellerGui window;
 
+    // Ces attributs servent à mémoriser la demande initiale, c'est utile pour le traitement des alertes
+    private String origineDemandee;
+    private String destinationDemandee;
+    private int heureDemandee;
+    private String preferenceDemandee;
+
     /**
      * Initialisation de l'agent
      */
@@ -93,12 +99,82 @@ public class TravellerAgent extends GuiAgent {
         detectAgences();
 
         topic = AgentServicesTools.generateTopicAID(this, "TRAFFIC NEWS");
-        //ecoute des messages radio
-        addBehaviour(new ReceiverBehaviour(this, -1, MessageTemplate.MatchTopic(topic), true, (a, m) -> {
-            println("Message recu sur le topic " + topic.getLocalName() + ". Contenu " + m.getContent()
-                    + " emis par :  " + m.getSender().getLocalName());
-        }));
 
+        //ecoute les messages radio et réagit aux alertes
+        addBehaviour(new ReceiverBehaviour(
+                this,
+                -1,
+                MessageTemplate.MatchTopic(topic),
+                true,
+                (a, m) -> traiterAlerte(m.getContent())
+        ));
+
+    }
+
+    /**
+     * Réagit en cas d'alerte : détermine si le trajet actuel est impacté ou non par l'alerte.
+     * S'il l'est, relance une recherche de trajet afin de trouver un nouveau trajet possible.
+     */
+    private void traiterAlerte(String contenu) {
+
+        String[] troncon = contenu.split(",", -1);
+
+        if (troncon.length != 2) {
+            println("Alerte invalide : " + contenu);
+            return;
+        }
+
+        String depart = troncon[0].trim();
+        String arrivee = troncon[1].trim();
+
+        if (depart.isEmpty() || arrivee.isEmpty()) {
+            println("Alerte invalide : " + contenu);
+            return;
+        }
+
+        println("Alerte trafic : " + depart + " -> " + arrivee);
+
+        if (myJourney == null) {
+            println("Aucun itinéraire selectionné.");
+            return;
+        }
+
+        boolean impacte = myJourney.getJourneys().stream()
+                .anyMatch(j -> j.getStart().equalsIgnoreCase(depart) && j.getStop().equalsIgnoreCase(arrivee));
+
+        if (!impacte) {
+            println("Mon itinéraire n'est pas impacté.");
+            return;
+        }
+
+        println("Itinéraire impacté : recherche d'un remplacement.");
+
+        relancerRecherche();
+    }
+
+    /**
+     * Lance une nouvelle recherche de trajet après réception d'une alerte.
+     */
+    private void relancerRecherche() {
+
+        if (origineDemandee == null || destinationDemandee == null || preferenceDemandee == null) {
+            println("Impossible de relancer la recherche : demande initiale inconnue.");
+            return;
+        }
+
+        // Invalider l'ancien itinéraire pour ne pas le réutiliser.
+        myJourney = null;
+
+        addBehaviour(new ContractNetAchat(
+                this,
+                new ACLMessage(ACLMessage.CFP),
+                origineDemandee,
+                destinationDemandee,
+                heureDemandee,
+                preferenceDemandee
+        ));
+
+        println("Nouvelle demande envoyée aux agences.");
     }
 
 
@@ -173,15 +249,27 @@ public class TravellerAgent extends GuiAgent {
      */
     @Override
     protected void onGuiEvent(final GuiEvent eventFromGui) {
+
         if (eventFromGui.getType() == TravellerAgent.EXIT) {
             doDelete();
         }
+
         if (eventFromGui.getType() == TravellerAgent.BUY_TRAVEL) {
-            final String givenCity = (String) eventFromGui.getParameter(4);
-            if (givenCity != null && !givenCity.isBlank()) city = givenCity;
-            addBehaviour(new ContractNetAchat(this, new ACLMessage(ACLMessage.CFP),
-                    (String) eventFromGui.getParameter(0), (String) eventFromGui.getParameter(1),
-                    (Integer) eventFromGui.getParameter(2), (String) eventFromGui.getParameter(3)));
+
+            // récupération de la demande initiale
+            origineDemandee = (String) eventFromGui.getParameter(0);
+            destinationDemandee = (String) eventFromGui.getParameter(1);
+            heureDemandee = (Integer) eventFromGui.getParameter(2);
+            preferenceDemandee = (String) eventFromGui.getParameter(3);
+
+            addBehaviour(new ContractNetAchat(
+                    this,
+                    new ACLMessage(ACLMessage.CFP),
+                    origineDemandee,
+                    destinationDemandee,
+                    heureDemandee,
+                    preferenceDemandee
+            ));
         }
     }
 
