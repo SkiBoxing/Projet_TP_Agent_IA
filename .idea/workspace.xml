@@ -4,39 +4,64 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="115dc47c-d731-441c-b8b8-20d7701f3987" name="Changes" comment="" />
+    <list default="true" id="8c38f731-1e7b-4445-8d50-64021d8dace8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/APDescription.txt" beforeDir="false" afterPath="$PROJECT_DIR$/APDescription.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MTPs-Main-Container.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MTPs-Main-Container.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/agents/TravellerAgent.java" beforeDir="false" afterPath="$PROJECT_DIR$/agents/TravellerAgent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/comportements/ContractNetAchat.java" beforeDir="false" afterPath="$PROJECT_DIR$/comportements/ContractNetAchat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui/TravellerGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/gui/TravellerGui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simuAgences.xml" beforeDir="false" afterPath="$PROJECT_DIR$/simuAgences.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
-}</component>
-  <component name="ProjectId" id="3KazsGIDAs4iEvruQT7M7e1XAHZ" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "SkiBoxing"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/SkiBoxing/Projet_TP_Agent_IA.git",
+    "accountId": "d7d0baec-4196-4b95-81d9-52d10d133725"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="3L35kJvydr0MwyesRwNOZt7XLwx" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Start.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/angra/OneDrive/Documents/-- ECOLE/2 - INSA/M2/S9/IA Agentic/TP/TP_v1_ANGRAND&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Start.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Start" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="launch.LaunchSimu" />
-      <module name="TP_v1_ANGRAND" />
+      <module name="Projet_TP_Agent_IA" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -52,13 +77,12 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="115dc47c-d731-441c-b8b8-20d7701f3987" name="Changes" comment="" />
-      <created>1791810671986</created>
+      <changelist id="8c38f731-1e7b-4445-8d50-64021d8dace8" name="Changes" comment="" />
+      <created>1792670053503</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1791810671986</updated>
-      <workItem from="1791810673413" duration="3789000" />
-      <workItem from="1791980354671" duration="7000" />
+      <updated>1792670053503</updated>
+      <workItem from="1792670055629" duration="2988000" />
     </task>
     <servers />
   </component>

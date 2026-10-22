@@ -28,6 +28,7 @@ public class TravellerGui extends JFrame {
     private JComboBox<String> jListTo;
     private JComboBox<String> jListCriteria;
     private JTextField textLocation;
+    private JTextField textNaturalRequest;
     private JSlider sliderTimeDeparture;
 
     private String departure;
@@ -78,6 +79,7 @@ public class TravellerGui extends JFrame {
                 guiEv.addParameter(time);
                 guiEv.addParameter(jListCriteria.getSelectedItem());
                 guiEv.addParameter(textLocation.getText());
+                guiEv.addParameter(textNaturalRequest.getText());
                 myAgent.postGuiEvent(guiEv);
                 // END SEND AN GUI EVENT TO THE AGENT !!!
             } catch (Exception e) {
@@ -117,6 +119,10 @@ public class TravellerGui extends JFrame {
 
         textLocation = new JTextField("Annecy");
         p.add(textLocation);
+
+        p.add(new JLabel("Langage naturel (optionnel) :"));
+        textNaturalRequest = new JTextField();
+        p.add(textNaturalRequest);
 
         p.add(addButton);
         p.add(new JLabel());

@@ -13,6 +13,8 @@ import comportements.ContractNetAchat;
 import data.ComposedJourney;
 import data.JourneysList;
 import gui.TravellerGui;
+import llm.TravelRequest;
+import llm.TravelRequestParser;
 import meteo.ClimateRules;
 import meteo.Meteo;
 import meteo.WeatherData;
@@ -68,6 +70,11 @@ public class TravellerAgent extends GuiAgent {
      * client of the weather api
      */
     private final Meteo meteo = new Meteo();
+
+    /**
+     * parser used to interpret a travel request expressed in natural language, via a local LLM
+     */
+    private final TravelRequestParser requestParser = new TravelRequestParser();
 
     /**
      * topic from which the alert will be received
@@ -256,11 +263,30 @@ public class TravellerAgent extends GuiAgent {
 
         if (eventFromGui.getType() == TravellerAgent.BUY_TRAVEL) {
 
-            // récupération de la demande initiale
+            // récupération de la demande initiale (champs du formulaire)
             origineDemandee = (String) eventFromGui.getParameter(0);
             destinationDemandee = (String) eventFromGui.getParameter(1);
             heureDemandee = (Integer) eventFromGui.getParameter(2);
             preferenceDemandee = (String) eventFromGui.getParameter(3);
+
+            final String givenCity = (String) eventFromGui.getParameter(4);
+            if (givenCity != null && !givenCity.isBlank()) city = givenCity;
+
+            // si l'utilisateur a formule sa demande en langage naturel, on tente de l'interpreter via le LLM
+            // et on remplace la demande du formulaire par celle comprise par le LLM
+            final String naturalRequest = (String) eventFromGui.getParameter(5);
+            if (naturalRequest != null && !naturalRequest.isBlank()) {
+                final TravelRequest parsed = requestParser.parse(naturalRequest);
+                if (parsed != null) {
+                    origineDemandee = parsed.from();
+                    destinationDemandee = parsed.to();
+                    heureDemandee = parsed.departureTime();
+                    preferenceDemandee = parsed.preference();
+                    println("demande interpretee par le LLM : " + parsed);
+                } else {
+                    println("demande en langage naturel non comprise, utilisation du formulaire.");
+                }
+            }
 
             addBehaviour(new ContractNetAchat(
                     this,
