@@ -130,6 +130,30 @@ classDiagram
 
 **Figure 1.** Les trois `GuiAgent` et leurs comportements ContractNet ; en pointillés, les dépendances ajoutées pour la météo et le LLM.
 
+## Installation nécessaire (partie LLM)
+
+Le champ "Langage naturel" de `TravellerGui` s'appuie sur un serveur [Ollama](https://ollama.com) local (`http://localhost:11434`), interrogé par `llm.OllamaClient`. Les tests avec de petits modèles (ex. `llama3.2:1b`) suivent mal la consigne de format JSON strict demandée (ils renvoient par exemple `"comfort"` au lieu de `"confort"`, ce qui fait silencieusement retomber la recherche sur le critère coût). Un modèle plus capable est donc recommandé, en particulier un modèle cloud Ollama comme `gpt-oss:20b-cloud` (exécuté sur l'infrastructure d'Ollama, donc sans contrainte de RAM/VRAM locale).
+
+Installation :
+
+```bash
+# se connecter à son compte Ollama (nécessaire pour les modèles -cloud)
+ollama signin
+
+# télécharger/référencer le modèle cloud
+ollama pull gpt-oss:20b-cloud
+```
+
+`OllamaClient.pickAvailableModel()` prend le **premier** modèle renvoyé par `/api/tags` : pour être certain que `gpt-oss:20b-cloud` soit bien celui utilisé, retirer les autres modèles installés (ou vérifier leur ordre) :
+
+```bash
+ollama list
+ollama rm llama3.2:1b   # adapter le nom aux modèles à retirer
+curl http://localhost:11434/api/tags   # vérifie que gpt-oss:20b-cloud est bien en tête
+```
+
+Le serveur Ollama doit être démarré **avant** le lancement de `LaunchSimu`, car le modèle est résolu une seule fois, à la création de `TravellerAgent` (champ `requestParser`).
+
 ## Diagrammes de séquence
 
 Les trois échanges clés sont détaillés séparément : la recherche et l'achat d'un voyage (protocole ContractNet complet), l'appel à l'API météo qui précède la recherche d'itinéraire, et l'appel au LLM lorsqu'une demande est formulée en langage naturel.
