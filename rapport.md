@@ -26,13 +26,8 @@ Le diagramme de classes ci-dessous se limite, comme demandé, aux agents et à l
 classDiagram
     direction LR
 
-    class Agent {
-        <<jade.core>>
-    }
     class GuiAgent {
-        <<jade.gui>>
     }
-    Agent <|-- GuiAgent
 
     class AgenceAgent {
         -JourneysList catalog
@@ -78,13 +73,6 @@ classDiagram
     GuiAgent <|-- TravellerAgent
     GuiAgent <|-- AlertAgent
 
-    class ContractNetResponder {
-        <<jade.proto>>
-    }
-    class ContractNetInitiator {
-        <<jade.proto>>
-    }
-
     class ContractNetVente {
         -JourneysList catalog
         -AgenceGui window
@@ -105,9 +93,6 @@ classDiagram
         +handleAllResponses(List, List)
         +handleInform(ACLMessage)
     }
-
-    ContractNetResponder <|-- ContractNetVente
-    ContractNetInitiator <|-- ContractNetAchat
 
     AgenceAgent "1" *-- "1" ContractNetVente : comportement
     TravellerAgent "1" *-- "0..*" ContractNetAchat : comportement
